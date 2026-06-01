@@ -1,0 +1,40 @@
+{
+  "type": "module",
+  "private": true,
+  "packageManager": "pnpm@10.29.1",
+  "scripts": {
+    "dev": "nuxt dev",
+    "dev:tunnel": "nuxt dev --tunnel",
+    "build": "nuxt build",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier \"**/*.{css,html,json,md,mjs,ts,vue,yml}\" --write",
+    "format:check": "prettier \"**/*.{css,html,json,md,mjs,ts,vue,yml}\" --check",
+    "test:types": "vue-tsc -b --noEmit",
+    "prepare": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^7.3.0",
+    "@nuxtjs/i18n": "^10.2.3",
+    "@sindresorhus/slugify": "^3.0.0",
+    "@types/node": "^24.10.12",
+    "@unocss/eslint-config": "^66.6.0",
+    "@unocss/nuxt": "^66.6.0",
+    "@vueuse/nuxt": "^14.2.0",
+    "eslint": "^10.0.0",
+    "nuxt": "^4.3.1",
+    "nuxt-kirby": "^3.0.3",
+    "prettier": "^3.8.1",
+    "sitemap": "^9.0.0",
+    "typescript": "^5.9.3",
+    "vue-tsc": "^3.2.4"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "esbuild"
+    ]
+  }
+}
