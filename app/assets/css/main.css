@@ -1,25 +1,109 @@
-html {
-  overflow-y: scroll;
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'GTStandard';
+  src:
+    url('../fonts/GT-Standard-L-Standard-Medium.woff') format('woff'),
+    url('../fonts/GT-Standard-L-Standard-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
+@font-face {
+  font-family: 'GTStandard';
+  src:
+    url('../fonts/GT-Standard-L-Standard-Medium-Oblique.woff') format('woff'),
+    url('../fonts/GT-Standard-L-Standard-Medium-Oblique.woff2') format('woff2');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
 }
 
-.grid {
-  --columns: 12;
-  --gutter: 1rem;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--gutter);
-}
-
-@media (min-width: 768px) {
-  .grid {
-    grid-template-columns: repeat(12, 1fr);
+:root {
+  --line-height: 1.35;
+  font-size: 16px;
+  @media (min-width: 1024px) {
+    font-size: 18px;
   }
-  .grid > .column {
-    grid-column: span var(--columns);
+  @media (min-width: 1600px) {
+    font-size: 20px;
+  }
+  @media (min-width: 1920px) {
+    font-size: 20px;
+  }
+  @media (min-width: 2560px) {
+    font-size: 22px;
+  }
+}
+
+@theme {
+  --color-brown: #844d49;
+  --color-black: #333333;
+  --leading-default: var(--line-height);
+  --font-gt-standard: 'GTStandard', sans-serif;
+}
+
+@layer utilities {
+  .font-gt-standard {
+    -webkit-text-stroke: 0.015em currentColor;
+  }
+
+  h1,
+  .h1 {
+    @apply text-[2.5rem] leading-none font-gt-standard;
+    @variant md {
+      @apply text-[4rem] leading-none font-gt-standard;
+    }
+    @variant xl {
+      @apply text-[5.5rem] leading-[0.95]  font-gt-standard;
+    }
+  }
+  h2,
+  .h2 {
+    @apply text-[2.25rem] leading-none font-gt-standard tracking-[0.0125em];
+    @variant xl {
+      @apply text-[3rem] leading-[.9]  font-gt-standard;
+    }
+  }
+  h3,
+  .h3 {
+    @apply text-[2rem] leading-[1.2] font-gt-standard;
+    @variant xl {
+      @apply text-[2.5rem] leading-[1.2]  font-gt-standard;
+    }
+  }
+  h4,
+  .h4 {
+    @apply text-[1.5rem] leading-[1.1];
+    @variant xl {
+      @apply text-[2rem] leading-[1.2];
+    }
+  }
+  h5,
+  .h5 {
+    @apply text-[1.5rem] leading-[1.2];
+    @variant xl {
+      @apply text-[1.75rem] leading-[1.05];
+    }
+  }
+  h6,
+  .h6 {
+    @apply text-[1.125rem] leading-[1.2];
+  }
+  caption,
+  figcaption,
+  .small,
+  small {
+    @apply text-[0.875rem] leading-default font-gt-standard;
+    @variant lg {
+      @apply text-[0.85rem] leading-default;
+    }
+  }
+  .x-small {
+    @apply text-[0.7rem] leading-default font-gt-standard;
+    @variant lg {
+      @apply text-[0.7rem] leading-default;
+    }
   }
 }

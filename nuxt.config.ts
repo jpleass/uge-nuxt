@@ -1,10 +1,11 @@
 import process from 'node:process'
 import { prefetchQuery, siteQuery } from './app/queries'
+import tailwindcss from '@tailwindcss/vite'
 
 export default defineNuxtConfig({
   // If you project doesn't require i18n, use the `without-i18n` branch instead:
   // https://github.com/johannschopplich/cacao-kit-frontend/tree/chore/without-i18n
-  modules: ['@nuxtjs/i18n', '@unocss/nuxt', '@vueuse/nuxt', 'nuxt-kirby'],
+  modules: ['@unocss/nuxt', '@vueuse/nuxt', 'nuxt-kirby', '@nuxt/icon'],
 
   compatibilityDate: '2025-08-01',
 
@@ -17,6 +18,7 @@ export default defineNuxtConfig({
       siteUrl: '',
     },
   },
+  css: ['./app/assets/css/main.css'],
 
   kirby: {
     auth: 'bearer',
@@ -27,26 +29,8 @@ export default defineNuxtConfig({
     },
   },
 
-  i18n: {
-    locales: [
-      { code: 'en', file: 'en.json' },
-      { code: 'de', file: 'de.json' },
-    ],
-    defaultLocale: 'en',
-    strategy: 'prefix',
-    compilation: {
-      strictMessage: false,
-    },
-    detectBrowserLanguage: {
-      useCookie: true,
-      redirectOn: 'root',
-    },
-    bundle: {
-      fullInstall: false,
-    },
-  },
-
   vite: {
+    plugins: [tailwindcss() as any],
     server: {
       // This is only required for the `pnpm dev:tunnel` command
       // to proxy Kirby requests, especially images

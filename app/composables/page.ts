@@ -27,8 +27,6 @@ export function setPage<T extends KirbySharedPageData & Record<string, any>>(
 
   // Build the page meta tags
   const { siteUrl } = useRuntimeConfig().public
-  const { $i18n: i18n } = useNuxtApp()
-  const { defaultLocale } = i18n
   const site = useSite()
   const title = page.title
     ? `${page.title} – ${site.value.title}`
@@ -47,12 +45,6 @@ export function setPage<T extends KirbySharedPageData & Record<string, any>>(
       hreflang: lang,
       href: joinURL(siteUrl, uri),
     }
-  })
-
-  // Add primary locale as `x-default` for SEO
-  alternateUrls.push({
-    ...alternateUrls.find((i) => i.hreflang === defaultLocale)!,
-    hreflang: 'x-default',
   })
 
   useHead({

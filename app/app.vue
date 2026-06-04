@@ -1,34 +1,23 @@
 <script setup lang="ts">
 import '~/assets/css/main.css'
 
-const { locale } = useI18n()
-
 if (import.meta.server) {
   useHead({
     htmlAttrs: {
-      lang: locale.value,
+      lang: 'en',
     },
-    link: [
-      {
-        rel: 'icon',
-        href: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-      {
-        rel: 'stylesheet',
-        href: 'https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css',
-      },
-    ],
   })
 }
 </script>
 
 <template>
-  <AppHeader />
-
-  <main id="main">
-    <NuxtPage />
-  </main>
-
-  <AppFooter />
+  <Html>
+    <Body class="bg-[rgb(230,230,230)] py-4 font-gt-standard">
+      <AppBorder color="#844d49">
+        <main id="main" class="w-full">
+          <NuxtPage />
+        </main>
+      </AppBorder>
+    </Body>
+  </Html>
 </template>

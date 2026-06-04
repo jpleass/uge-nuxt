@@ -4,13 +4,9 @@ import type { Component } from 'vue'
 import {
   LazyKirbyBlockHeading,
   LazyKirbyBlockImage,
-  LazyKirbyBlockIntro,
   LazyKirbyBlockLine,
   LazyKirbyBlockList,
-  LazyKirbyBlockNoteHeader,
-  LazyKirbyBlockNotesGrid,
   LazyKirbyBlockQuote,
-  LazyKirbyBlockTeamStructure,
   LazyKirbyBlockText,
 } from '#components'
 
@@ -27,10 +23,6 @@ const blockComponents: Record<string, Component> = {
   quote: LazyKirbyBlockQuote,
   text: LazyKirbyBlockText,
   // Custom blocks
-  intro: LazyKirbyBlockIntro,
-  'note-header': LazyKirbyBlockNoteHeader,
-  'notes-grid': LazyKirbyBlockNotesGrid,
-  'team-structure': LazyKirbyBlockTeamStructure,
 }
 
 const content = useTemplateRef('content')

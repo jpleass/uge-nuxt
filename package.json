@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^7.3.0",
-    "@nuxtjs/i18n": "^10.2.3",
+    "@nuxt/icon": "2.2.3",
     "@sindresorhus/slugify": "^3.0.0",
     "@types/node": "^24.10.12",
     "@unocss/eslint-config": "^66.6.0",
@@ -36,5 +36,9 @@
       "@parcel/watcher",
       "esbuild"
     ]
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.0",
+    "tailwindcss": "^4.3.0"
   }
 }
