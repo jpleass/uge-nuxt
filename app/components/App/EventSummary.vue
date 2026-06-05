@@ -6,6 +6,13 @@ const props = defineProps<{
 }>()
 
 const { globalColor } = useGlobalColor()
+
+const altText = computed(() => {
+  const theme = (props.event.theme ?? '').replace(/<[^>]*>/g, '').trim()
+  return theme
+    ? `Untitled Games Event #${props.event.number}: ${theme}`
+    : `Untitled Games Event #${props.event.number}`
+})
 </script>
 
 <template>
@@ -32,7 +39,7 @@ const { globalColor } = useGlobalColor()
     >
       <AppRecoloredImage
         :src="event.image"
-        :alt="event.title"
+        :alt="altText"
         :color="globalColor"
         class="my-4 w-50 h-50"
         :style="{

@@ -4,7 +4,7 @@
     :data-color="'#333333'"
   >
     <div class="flex flex-col items-center text-center">
-      <p>Have a question or want to get involved?</p>
+      <p>have a question or want to get involved?</p>
       <p>
         contact us at:
         <a class="link" href="mailto:untitledgamesevent@proton.me">

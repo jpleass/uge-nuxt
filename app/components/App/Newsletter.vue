@@ -4,7 +4,7 @@
     :data-color="'#333333'"
   >
     <div class="flex flex-col items-center text-center lg:gap-8 gap-4">
-      <p>Sign up to stay informed on events?</p>
+      <p>sign up to stay informed on events?</p>
       <form
         action="https://buttondown.com/api/emails/embed-subscribe/untitledgamesevent"
         method="post"

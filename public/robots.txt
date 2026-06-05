@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://untitledgamesevent.nl/sitemap.xml

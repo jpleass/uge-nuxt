@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center gap-16 pt-16" :data-color="'#333333'">
     <h1
-      class="tracking-[0.15em] text-center whitespace-nowrap lg:text-[1.4em] text-[1.2em]"
+      class="tracking-widest text-center whitespace-nowrap lg:text-[1.4em] text-[1.2em]"
     >
       [ untitled games event ]
     </h1>

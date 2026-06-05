@@ -11,7 +11,8 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      siteUrl: '',
+      // Override per-environment with NUXT_PUBLIC_SITE_URL.
+      siteUrl: 'https://untitledgamesevent.nl',
     },
   },
   css: ['./app/assets/css/main.css'],
