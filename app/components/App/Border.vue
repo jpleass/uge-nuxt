@@ -9,9 +9,9 @@ const color = computed(() => props.color || globalColor.value || '#000000')
 const { width: windowWidth } = useWindowSize()
 const effectiveBorderWidth = computed(() => {
   if (props.borderWidth !== undefined) return props.borderWidth
-  // Linear interpolation: 43px at 320px viewport → 80px at 1920px
+  // Linear interpolation: 34px at 320px viewport → 80px at 1920px
   const t = Math.min(1, Math.max(0, (windowWidth.value - 320) / (1920 - 320)))
-  return Math.round(43 + t * (80 - 43))
+  return Math.round(34 + t * (80 - 34))
 })
 
 const imageSize = 768
@@ -108,7 +108,11 @@ watch(color, (newColor, oldColor) => {
 }
 
 @keyframes border-ghost-fade {
-  from { opacity: 1; }
-  to { opacity: 0; }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 </style>
