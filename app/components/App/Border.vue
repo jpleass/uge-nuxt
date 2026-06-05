@@ -72,7 +72,7 @@ watch(color, (newColor, oldColor) => {
   border-style: solid;
   border-color: transparent;
   border-image-slice: 86;
-  border-image-repeat: round;
+  border-image-repeat: repeat;
   image-rendering: pixelated;
 }
 
@@ -83,9 +83,18 @@ watch(color, (newColor, oldColor) => {
   border-style: solid;
   border-color: transparent;
   border-image-slice: 86;
-  border-image-repeat: round;
+  border-image-repeat: repeat;
   image-rendering: pixelated;
   animation: border-ghost-fade 300ms ease-out forwards;
+}
+
+/* round scales tiles to fit on larger screens; repeat keeps the native
+   tile size on mobile to avoid over-stretching. */
+@media (min-width: 769px) {
+  .frame,
+  .border-ghost {
+    border-image-repeat: round;
+  }
 }
 
 @keyframes border-ghost-fade {
