@@ -21,7 +21,8 @@
 }
 
 :root {
-  --line-height: 1.35;
+  --line-height: 1.225;
+  --color-global: #333333;
   font-size: 16px;
   @media (min-width: 1024px) {
     font-size: 18px;
@@ -40,8 +41,21 @@
 @theme {
   --color-brown: #844d49;
   --color-black: #333333;
+  --color-global: var(--color-global);
+  --color-bg: rgb(230, 230, 230);
   --leading-default: var(--line-height);
   --font-gt-standard: 'GTStandard', sans-serif;
+}
+
+@layer components {
+  .link {
+    @apply transition-colors ease-in-out cursor-pointer;
+    @variant md {
+      &:hover {
+        @apply text-gray-400!;
+      }
+    }
+  }
 }
 
 @layer utilities {

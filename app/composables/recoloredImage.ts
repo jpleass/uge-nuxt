@@ -7,14 +7,19 @@ import type { MaybeRefOrGetter } from 'vue'
  * re-tint the cached pixels rather than re-decoding. `src` starts as the raw
  * asset so SSR/first paint still shows something; it's replaced once the asset
  * has loaded.
+ *
+ * Also exposes `getSrc(color)` which renders a given color once and caches the
+ * result — useful for callers that manage their own transitions without needing
+ * per-frame canvas work.
  */
 export function useRecoloredImage(
   source: string,
-  color: MaybeRefOrGetter<string>,
+  color?: MaybeRefOrGetter<string>,
   width?: number,
   height?: number,
 ) {
   const src = ref(source)
+  const loaded = ref(false)
 
   // Cached pixels of the original asset, read once so retinting doesn't re-decode.
   let srcPixels: Uint8ClampedArray | null = null
@@ -22,7 +27,8 @@ export function useRecoloredImage(
   let w = width ?? 0
   let h = height ?? width ?? 0
 
-  const TRANSITION_MS = 300
+  // Per-color data-URL cache so each unique color is only rendered once.
+  const colorCache = new Map<string, string>()
 
   // Resolve any CSS color string to [r, g, b] by letting the canvas parse it.
   function parseColor(value: string): [number, number, number] {
@@ -36,8 +42,8 @@ export function useRecoloredImage(
   }
 
   // Build a tinted data-URL from the cached source pixels using an explicit rgb triple.
-  function recolor(r: number, g: number, b: number) {
-    if (!import.meta.client || !srcPixels) return
+  function recolor(r: number, g: number, b: number): string {
+    if (!import.meta.client || !srcPixels) return ''
     const out = new ImageData(w, h)
     const dst = out.data
     for (let i = 0; i < srcPixels.length; i += 4) {
@@ -56,11 +62,23 @@ export function useRecoloredImage(
     canvas.height = h
     const ctx = canvas.getContext('2d')!
     ctx.putImageData(out, 0, 0)
-    src.value = canvas.toDataURL('image/png')
+    return canvas.toDataURL('image/png')
+  }
+
+  // Render the given color once and return the cached data-URL.
+  function getSrc(colorValue: string): string {
+    if (!srcPixels) return ''
+    if (colorCache.has(colorValue)) return colorCache.get(colorValue)!
+    const [r, g, b] = parseColor(colorValue)
+    const dataUrl = recolor(r, g, b)
+    colorCache.set(colorValue, dataUrl)
+    return dataUrl
   }
 
   let currentRgb: [number, number, number] = [0, 0, 0]
   let rafId: number | null = null
+
+  const TRANSITION_MS = 300
 
   function animateTo(target: string) {
     if (!srcPixels) return
@@ -75,7 +93,7 @@ export function useRecoloredImage(
       const r = Math.round(from[0] + (to[0] - from[0]) * t)
       const g = Math.round(from[1] + (to[1] - from[1]) * t)
       const b = Math.round(from[2] + (to[2] - from[2]) * t)
-      recolor(r, g, b)
+      src.value = recolor(r, g, b)
       if (t < 1) {
         rafId = requestAnimationFrame(tick)
       } else {
@@ -100,14 +118,19 @@ export function useRecoloredImage(
     const ctx = canvas.getContext('2d')!
     ctx.drawImage(img, 0, 0, w, h)
     srcPixels = ctx.getImageData(0, 0, w, h).data
-    currentRgb = parseColor(toValue(color))
-    recolor(...currentRgb)
+    loaded.value = true
+    if (color !== undefined) {
+      currentRgb = parseColor(toValue(color))
+      src.value = recolor(...currentRgb)
+    }
   }
 
   if (import.meta.client) {
     onMounted(load)
-    watch(() => toValue(color), animateTo)
+    if (color !== undefined) {
+      watch(() => toValue(color), animateTo)
+    }
   }
 
-  return { src }
+  return { src, getSrc, loaded }
 }
