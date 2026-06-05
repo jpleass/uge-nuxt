@@ -4,18 +4,18 @@
       [ untitled games event ]
     </h1>
 
-    <p class="lg:max-w-[15em] text-center leading-tight tracking-wide">
+    <p class="lg:max-w-[15em] text-center tracking-wide leading-default">
       a space for experimental games and playable arts
     </p>
 
     <div
-      class="flex flex-wrap justify-center gap-8 lg:gap-24 lg:pt-16 leading-tight text-center lg:text-left"
+      class="flex flex-wrap justify-center gap-8 lg:gap-24 lg:pt-16 text-center lg:text-left leading-default"
     >
       <p class="lg:max-w-[15em]">
         a monthly 'book club' for games and conversations around play.
       </p>
       <a
-        class="link lg:max-w-[15em] leading-tight tracking-wide lg:text-right"
+        class="link lg:max-w-[15em] tracking-wide lg:text-right"
         href="https://maps.google.com/?q=Tussen+de+Bogen+46,+1013+JB"
         target="_blank"
         rel="noopener noreferrer"

@@ -21,7 +21,7 @@
 }
 
 :root {
-  --line-height: 1.225;
+  --line-height: 1.1;
   --color-global: #333333;
   font-size: 16px;
   @media (min-width: 1024px) {
@@ -45,16 +45,34 @@
   --color-bg: rgb(230, 230, 230);
   --leading-default: var(--line-height);
   --font-gt-standard: 'GTStandard', sans-serif;
+  --spacing-linebreak: calc(var(--line-height) * 1em);
 }
 
 @layer components {
   .link {
-    @apply transition-colors ease-in-out cursor-pointer;
+    @apply transition-colors duration-75  cursor-pointer;
     @variant md {
       &:hover {
         @apply text-gray-400!;
       }
     }
+  }
+
+  .body-text {
+    @apply leading-default;
+  }
+  .body-text a {
+    @apply underline! transition-colors duration-75 md:hover:text-gray-400!;
+  }
+  .body-text p {
+    @apply mb-linebreak;
+  }
+  .body-text *:last-child {
+    @apply mb-0;
+  }
+  .body-text ul,
+  .body-text ol {
+    @apply mb-linebreak list-disc ml-16;
   }
 }
 
@@ -65,45 +83,45 @@
 
   h1,
   .h1 {
-    @apply text-[2.5rem] leading-none font-gt-standard;
+    @apply text-[2.5rem] font-gt-standard;
     @variant md {
-      @apply text-[4rem] leading-none font-gt-standard;
+      @apply text-[4rem] font-gt-standard;
     }
     @variant xl {
-      @apply text-[5.5rem] leading-[0.95]  font-gt-standard;
+      @apply text-[5.5rem]   font-gt-standard;
     }
   }
   h2,
   .h2 {
-    @apply text-[2.25rem] leading-none font-gt-standard tracking-[0.0125em];
+    @apply text-[2.25rem] font-gt-standard tracking-[0.0125em];
     @variant xl {
-      @apply text-[3rem] leading-[.9]  font-gt-standard;
+      @apply text-[3rem]   font-gt-standard;
     }
   }
   h3,
   .h3 {
-    @apply text-[2rem] leading-[1.2] font-gt-standard;
+    @apply text-[2rem]  font-gt-standard;
     @variant xl {
-      @apply text-[2.5rem] leading-[1.2]  font-gt-standard;
+      @apply text-[2.5rem]  font-gt-standard;
     }
   }
   h4,
   .h4 {
-    @apply text-[1.5rem] leading-[1.1];
+    @apply text-[1.5rem];
     @variant xl {
-      @apply text-[2rem] leading-[1.2];
+      @apply text-[2rem];
     }
   }
   h5,
   .h5 {
-    @apply text-[1.5rem] leading-[1.2];
+    @apply text-[1.5rem];
     @variant xl {
-      @apply text-[1.75rem] leading-[1.05];
+      @apply text-[1.75rem];
     }
   }
   h6,
   .h6 {
-    @apply text-[1.125rem] leading-[1.2];
+    @apply text-[1.125rem];
   }
   caption,
   figcaption,

@@ -6,7 +6,7 @@ const { data: events } = await useAsyncData('events', () =>
 
 <template>
   <div
-    class="flex flex-col items-center gap-16 w-full p-4 md:p-8 text-lg md:text-[calc(1em+1.25vw)] font-bold"
+    class="flex flex-col items-center gap-16 w-full p-4 md:p-8 text-lg md:text-[calc(1em+1.25vw)] font-bold leading-default"
   >
     <AppHero />
     <AppNewsletter />

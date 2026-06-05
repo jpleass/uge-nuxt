@@ -23,17 +23,38 @@ const { globalColor } = useGlobalColor()
       </div>
     </div>
 
-    <AppRecoloredImage
-      :src="event.image"
-      :alt="event.title"
-      :color="globalColor"
-      class="my-4 w-50 h-50"
-    />
+    <component
+      :is="event.link ? 'a' : 'div'"
+      :href="event.link || undefined"
+      :target="event.link ? '_blank' : undefined"
+      :rel="event.link ? 'noopener noreferrer' : undefined"
+      class="md:hover:scale-105 transition-transform rounded overflow-hidden"
+    >
+      <AppRecoloredImage
+        :src="event.image"
+        :alt="event.title"
+        :color="globalColor"
+        class="my-4 w-50 h-50"
+        :style="{
+          imageRendering: 'pixelated',
+        }"
+      />
+    </component>
 
-    <ContentRenderer
-      v-if="event.body"
-      :value="event"
-      class="body-text max-w-[25em] leading-default text-center"
-    />
+    <div v-if="event.body" class="body-text max-w-[25em] text-center">
+      <ContentRenderer :value="event" />
+    </div>
+
+    <div v-if="event.link" class="mt-[1em] pb-[1em]">
+      <a
+        :href="event.link"
+        target="_blank"
+        rel="noopener noreferrer"
+        color="primary"
+        class="link border-current rounded px-4 py-2 transition-colors border-[0.2em] leading-none"
+      >
+        read more
+      </a>
+    </div>
   </section>
 </template>

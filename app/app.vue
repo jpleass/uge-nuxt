@@ -14,7 +14,9 @@ useGlobalColorObserver()
 
 <template>
   <Html>
-    <Body class="bg-bg py-4 font-gt-standard text-global">
+    <Body
+      class="bg-bg py-4 font-gt-standard text-global tracking-[0.015em] leading-default"
+    >
       <AppBorder>
         <main id="main" class="w-full">
           <NuxtPage />
