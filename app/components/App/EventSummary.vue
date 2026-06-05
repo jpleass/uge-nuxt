@@ -26,7 +26,7 @@ useIntersectionObserver(
       }"
     >
       <div>
-        <h4 v-if="event.date" class="text-center text-lg">
+        <h4 v-if="event.date" class="text-center lg:text-lg">
           {{ event.date }}
         </h4>
         <div class="flex flex-row gap-2">
@@ -34,7 +34,7 @@ useIntersectionObserver(
           <div v-html="event.theme"></div>
         </div>
       </div>
-      <div class="">
+      <div class="my-4">
         <AppRecoloredImage
           :src="event.image"
           :alt="event.title"
@@ -46,7 +46,7 @@ useIntersectionObserver(
         <ContentRenderer
           v-if="event.body"
           :value="event"
-          class="mt-1 text-center [&_p]:m-0"
+          class="body-text leading-default text-center"
         />
       </div>
     </section>

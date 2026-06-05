@@ -6,25 +6,25 @@ const { data: events } = await useAsyncData('events', () =>
 
 <template>
   <div
-    class="lg:p-8 p-4 text-[calc(1em+1.25vw)] font-bold w-full flex items-center flex-col gap-16"
+    class="md:p-8 p-4 md:text-[calc(1em+1.25vw)] text-xl font-bold w-full flex items-center flex-col gap-16"
   >
     <div class="flex flex-col gap-8 items-center pt-12">
       <div>
-        <h1 class="tracking-[0.15em] text-center">[ untitled games event ]</h1>
-        <div class="text-sm text-right mt-2">(yoo-gee)</div>
+        <h1 class="tracking-[0.15em] text-center whitespace-nowrap">
+          [ untitled games event ]
+        </h1>
       </div>
-      <div class="max-w-[15em] text-center leading-tight tracking-wide">
+      <div class="lg:max-w-[15em] text-center leading-tight tracking-wide">
         a space for experimental games and playable arts
-        <!-- <div class="text-sm mt-2">
-          an afternoon of talks, plays &amp; things to poke at
-        </div> -->
       </div>
 
-      <div class="flex gap-24 leading-tight flex-wrap pt-8">
-        <div class="max-w-[15em]">
+      <div
+        class="flex lg:gap-24 gap-8 leading-tight flex-wrap pt-16 justify-center"
+      >
+        <div class="lg:max-w-[15em]">
           a "monthly" sunday event<br />16:30 – 19:00
         </div>
-        <div class="max-w-[15em] leading-tight tracking-wide text-right">
+        <div class="lg:max-w-[15em] leading-tight tracking-wide text-right">
           <a
             class="md:hover:text-black"
             href="https://maps.google.com/?q=Tussen+de+Bogen+46,+1013+JB"
@@ -37,7 +37,7 @@ const { data: events } = await useAsyncData('events', () =>
       </div>
     </div>
 
-    <div class="flex flex-col gap-4 items-center">
+    <div class="flex flex-col gap-4 items-center pt-16">
       <div class="text-center">
         <div>Sign up to stay informed on events?</div>
         <input
@@ -60,8 +60,14 @@ const { data: events } = await useAsyncData('events', () =>
       </div>
     </div>
 
-    <div class="flex gap-32 flex-col items-center w-full">
-      <AppEventSummary v-for="event in events" :key="event.id" :event="event" />
+    <div class="flex gap-8 flex-col items-center w-full">
+      <div
+        v-for="event in events"
+        :key="event.id"
+        class="py-12 border-t-[0.2em] border-current border-dashed"
+      >
+        <AppEventSummary :event="event" />
+      </div>
     </div>
   </div>
 </template>

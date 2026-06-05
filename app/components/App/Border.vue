@@ -56,6 +56,7 @@ const { src: borderSrc } = useRecoloredImage(AppBorder, color, 768)
 <style scoped>
 .frame {
   box-sizing: border-box;
+  max-width: 100%;
   margin: 0 auto;
   border-style: solid;
   border-color: transparent;
