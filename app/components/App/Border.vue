@@ -14,22 +14,6 @@ const effectiveBorderWidth = computed(() => {
   return Math.round(34 + t * (80 - 34))
 })
 
-const imageSize = 768
-const slicePx = 86 // fixed: source image design property
-const edgeTile = computed(
-  () => ((imageSize - 2 * slicePx) * effectiveBorderWidth.value) / slicePx,
-)
-
-const frame = ref<HTMLElement | null>(null)
-const inner = ref<HTMLElement | null>(null)
-
-const { ready } = useTiledFrame(
-  frame,
-  inner,
-  () => effectiveBorderWidth.value,
-  () => edgeTile.value,
-)
-
 const { getSrc, loaded } = useRecoloredImage(AppBorder, undefined, 768)
 
 const currentSrc = ref('')
@@ -53,10 +37,9 @@ watch(color, (newColor, oldColor) => {
 <template>
   <ClientOnly>
     <div
-      ref="frame"
       class="frame"
       :style="{
-        borderImageSource: ready && currentSrc ? `url(${currentSrc})` : 'none',
+        borderImageSource: currentSrc ? `url(${currentSrc})` : 'none',
         borderWidth: `${effectiveBorderWidth}px`,
       }"
     >
@@ -72,9 +55,7 @@ watch(color, (newColor, oldColor) => {
           inset: `-${effectiveBorderWidth}px`,
         }"
       />
-      <div ref="inner">
-        <slot />
-      </div>
+      <slot />
     </div>
     <template #fallback>
       <slot />
@@ -86,8 +67,8 @@ watch(color, (newColor, oldColor) => {
 .frame {
   position: relative;
   box-sizing: border-box;
-  max-width: 100%;
-  margin: 0 auto;
+  width: 100%;
+  min-height: 100vh;
   border-style: solid;
   border-color: transparent;
   border-image-slice: 86;

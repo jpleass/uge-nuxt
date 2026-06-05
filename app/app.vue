@@ -15,7 +15,7 @@ useGlobalColorObserver()
 <template>
   <Html>
     <Body
-      class="bg-bg py-4 font-gt-standard text-global tracking-[0.015em] leading-default"
+      class="bg-bg py-4 font-gt-standard text-global tracking-[0.015em] leading-default lg:px-16 px-2"
     >
       <AppBorder>
         <main id="main" class="w-full">
