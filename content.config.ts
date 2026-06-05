@@ -10,6 +10,7 @@ export default defineContentConfig({
         image: z.string(),
         color: z.string(),
         date: z.string().optional(),
+        upcoming: z.boolean().optional(),
         theme: z.string().optional(),
         link: z.string().optional(),
       }),
