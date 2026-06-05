@@ -1,12 +1,10 @@
 <script lang="ts" setup>
 import AppBorder from '@/assets/images/Base_Tiled_Square.png'
 
-const props = withDefaults(
-  defineProps<{ color?: string; borderWidth?: number }>(),
-  {
-    color: '#000000',
-  },
-)
+const { globalColor } = useGlobalColor()
+const props = defineProps<{ color?: string; borderWidth?: number }>()
+
+const color = computed(() => props.color || globalColor.value || '#000000')
 
 const { width: windowWidth } = useWindowSize()
 const effectiveBorderWidth = computed(() => {
@@ -32,29 +30,35 @@ const { ready } = useTiledFrame(
   () => edgeTile.value,
 )
 
-// Source asset is a black line on opaque white with no alpha; recolour it on the
-// client so dark pixels become `color` and white pixels become transparent, then
-// feed the result into `border-image-source`.
-const { src: borderSrc } = useRecoloredImage(AppBorder, () => props.color, 768)
+const { src: borderSrc } = useRecoloredImage(AppBorder, color, 768)
 </script>
 
 <template>
-  <div
-    ref="frame"
-    class="frame"
-    :style="{ borderImageSource: ready ? `url(${borderSrc})` : 'none' }"
-  >
-    <div ref="inner">
-      <slot />
+  <ClientOnly>
+    <div
+      ref="frame"
+      class="frame"
+      :style="{
+        borderImageSource: ready ? `url(${borderSrc})` : 'none',
+        borderWidth: `${effectiveBorderWidth}px`,
+      }"
+    >
+      <div ref="inner">
+        <slot />
+      </div>
     </div>
-  </div>
+    <template #fallback>
+      <slot />
+    </template>
+  </ClientOnly>
 </template>
 
 <style scoped>
 .frame {
   box-sizing: border-box;
   margin: 0 auto;
-  border: v-bind('effectiveBorderWidth + "px"') solid transparent;
+  border-style: solid;
+  border-color: transparent;
   border-image-slice: 86;
   border-image-repeat: round;
   image-rendering: pixelated;

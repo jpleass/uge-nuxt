@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineNuxtConfig({
   // If you project doesn't require i18n, use the `without-i18n` branch instead:
   // https://github.com/johannschopplich/cacao-kit-frontend/tree/chore/without-i18n
-  modules: ['@unocss/nuxt', '@vueuse/nuxt', 'nuxt-kirby', '@nuxt/icon'],
+  modules: ['@unocss/nuxt', '@vueuse/nuxt', 'nuxt-kirby', '@nuxt/icon', '@nuxt/content'],
 
   compatibilityDate: '2025-08-01',
 

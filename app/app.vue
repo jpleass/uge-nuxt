@@ -8,12 +8,19 @@ if (import.meta.server) {
     },
   })
 }
+
+const { globalColor } = useGlobalColor()
 </script>
 
 <template>
   <Html>
-    <Body class="bg-[rgb(230,230,230)] py-4 font-gt-standard">
-      <AppBorder color="#844d49">
+    <Body
+      class="bg-[rgb(230,230,230)] py-4 font-gt-standard"
+      :style="{
+        color: globalColor,
+      }"
+    >
+      <AppBorder>
         <main id="main" class="w-full">
           <NuxtPage />
         </main>

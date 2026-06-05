@@ -1,12 +1,11 @@
 import type { Ref } from 'vue'
 
 /**
- * Sizes a tiling border frame to fill the window. Height fills the viewport
- * exactly and grows past it (snapped to whole edge-tiles) to fit taller content;
- * width snaps down to whole edge-tiles, leaving any sub-tile slack to be centred
- * by the element's `margin: 0 auto`. The `border-image-repeat: round` rule
- * scales the edge tiles to fit. Re-runs on window resize and whenever the inner
- * content changes size.
+ * Sizes a tiling border frame to wrap its content. Height hugs the inner
+ * content exactly; width snaps down to whole edge-tiles, leaving any sub-tile
+ * slack to be centred by the element's `margin: 0 auto`.
+ * The `border-image-repeat: round` rule scales the edge tiles to fit. Re-runs on
+ * window resize and whenever the inner content changes size.
  */
 export function useTiledFrame(
   frame: Ref<HTMLElement | null>,
@@ -33,15 +32,9 @@ export function useTiledFrame(
     const innerEl = inner.value
     if (!frameEl || !innerEl) return
 
-    // Height fills the viewport exactly, growing to whole tiles for taller content.
-    // The frame's offset from the document top is the space its container reserves
-    // above it (e.g. body padding); assume the same below, so subtract it twice to
-    // avoid overflowing the viewport.
-    const vInset = frameEl.getBoundingClientRect().top + window.scrollY
-    const contentHeight =
-      Math.ceil(innerEl.scrollHeight / getEdgeTile()) * getEdgeTile() +
-      2 * getBorderWidth()
-    frameEl.style.minHeight = `${Math.max(window.innerHeight - 2 * vInset, contentHeight)}px`
+    // Height hugs the content exactly; `border-image-repeat: round` rescales the
+    // edge tiles to fit whatever height we land on, so no tile snapping is needed.
+    frameEl.style.minHeight = `${innerEl.scrollHeight + 2 * getBorderWidth()}px`
 
     // Width fills the viewport; sub-tile slack is centred by margin auto.
     frameEl.style.width = `${tilesFor(window.innerWidth) * getEdgeTile() + 2 * getBorderWidth()}px`
