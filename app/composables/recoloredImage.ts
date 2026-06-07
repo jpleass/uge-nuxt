@@ -30,17 +30,6 @@ export function useRecoloredImage(
   // Per-color data-URL cache so each unique color is only rendered once.
   const colorCache = new Map<string, string>()
 
-  // Resolve any CSS color string to [r, g, b] by letting the canvas parse it.
-  function parseColor(value: string): [number, number, number] {
-    const c = document.createElement('canvas')
-    c.width = c.height = 1
-    const ctx = c.getContext('2d')!
-    ctx.fillStyle = value
-    ctx.fillRect(0, 0, 1, 1)
-    const d = ctx.getImageData(0, 0, 1, 1).data
-    return [d[0]!, d[1]!, d[2]!]
-  }
-
   // Build a tinted data-URL from the cached source pixels using an explicit rgb triple.
   function recolor(r: number, g: number, b: number): string {
     if (!import.meta.client || !srcPixels) return ''
@@ -75,36 +64,6 @@ export function useRecoloredImage(
     return dataUrl
   }
 
-  let currentRgb: [number, number, number] = [0, 0, 0]
-  let rafId: number | null = null
-
-  const TRANSITION_MS = 300
-
-  function animateTo(target: string) {
-    if (!srcPixels) return
-    const from: [number, number, number] = [...currentRgb]
-    const to = parseColor(target)
-    const start = performance.now()
-
-    if (rafId !== null) cancelAnimationFrame(rafId)
-
-    function tick(now: number) {
-      const t = Math.min(1, (now - start) / TRANSITION_MS)
-      const r = Math.round(from[0] + (to[0] - from[0]) * t)
-      const g = Math.round(from[1] + (to[1] - from[1]) * t)
-      const b = Math.round(from[2] + (to[2] - from[2]) * t)
-      src.value = recolor(r, g, b)
-      if (t < 1) {
-        rafId = requestAnimationFrame(tick)
-      } else {
-        currentRgb = to
-        rafId = null
-      }
-    }
-
-    rafId = requestAnimationFrame(tick)
-  }
-
   async function load() {
     const img = new Image()
     img.src = source
@@ -120,15 +79,18 @@ export function useRecoloredImage(
     srcPixels = ctx.getImageData(0, 0, w, h).data
     loaded.value = true
     if (color !== undefined) {
-      currentRgb = parseColor(toValue(color))
-      src.value = recolor(...currentRgb)
+      src.value = getSrc(toValue(color))
     }
   }
 
   if (import.meta.client) {
     onMounted(load)
     if (color !== undefined) {
-      watch(() => toValue(color), animateTo)
+      // The shared global-color driver feeds a new color per frame; we just
+      // render the cached tint for each one (no internal animation).
+      watch(() => toValue(color), (next) => {
+        src.value = getSrc(next)
+      })
     }
   }
 

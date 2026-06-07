@@ -1,10 +1,10 @@
 <template>
   <div class="flex flex-col items-center gap-16 pt-16" :data-color="'#333333'">
-    <h1
-      class="tracking-widest text-center whitespace-nowrap lg:text-[1.4em] text-[1.2em]"
+    <div
+      class="lg:tracking-widest text-center whitespace-nowrap lg:text-[1.4em]"
     >
       [ untitled games event ]
-    </h1>
+    </div>
 
     <p class="max-w-xl text-center tracking-wide leading-default">
       a monthly event for experimental games, playable arts, and conversations

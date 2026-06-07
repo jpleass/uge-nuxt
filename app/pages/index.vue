@@ -108,9 +108,7 @@ useHead({
           class="w-full py-16 border-t-[0.2em] border-current border-dashed"
         >
           <div v-if="i === 0" class="lg:my-16 text-center">
-            <h2 class="tracking-widest lg:text-[1.4em] text-[1.2em]">
-              [ upcoming ]
-            </h2>
+            <div class="lg:tracking-widest lg:text-[1.4em]">[ upcoming ]</div>
           </div>
           <AppEventSummary :event="event" />
         </div>
@@ -122,9 +120,7 @@ useHead({
         class="w-full py-16 border-t-[0.2em] border-current border-dashed"
       >
         <div v-if="i === 0" class="lg:my-16 text-center">
-          <h2 class="tracking-widest lg:text-[1.4em] text-[1.2em]">
-            [ past events ]
-          </h2>
+          <div class="lg:tracking-widest lg:text-[1.4em]">[ past events ]</div>
         </div>
         <AppEventSummary :event="event" />
       </div>

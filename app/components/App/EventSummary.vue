@@ -17,14 +17,14 @@ const altText = computed(() => {
 
 <template>
   <section
-    class="flex flex-col items-center gap-4 pt-16 w-full transition-colors"
+    class="flex flex-col items-center gap-4 pt-16 w-full"
     :data-color="event.color"
   >
     <div class="text-center">
-      <h4 v-if="event.date" class="lg:text-lg">
+      <h4 v-if="event.date" class="lg:text-lg text-sm">
         {{ event.date }}
       </h4>
-      <div class="flex justify-center gap-2">
+      <div class="flex justify-center lg:gap-2 gap-1">
         <span>#{{ event.number }}:</span>
         <span v-html="event.theme" />
       </div>
@@ -41,14 +41,17 @@ const altText = computed(() => {
         :src="event.image"
         :alt="altText"
         :color="globalColor"
-        class="my-4 w-50 h-50"
+        class="my-4 lg:w-50 lg:h-50 w-40 h-40"
         :style="{
           imageRendering: 'pixelated',
         }"
       />
     </component>
 
-    <div v-if="event.body" class="body-text max-w-[25em] text-center">
+    <div
+      v-if="event.body"
+      class="body-text lg:leading-default! max-w-[25em] text-center text-sm lg:text-[1em]/normal"
+    >
       <ContentRenderer :value="event" />
     </div>
 
@@ -58,7 +61,7 @@ const altText = computed(() => {
         target="_blank"
         rel="noopener noreferrer"
         color="primary"
-        class="link border-current rounded px-4 py-2 transition-colors border-[0.2em] leading-none"
+        class="link border-current rounded px-4 py-2 border-[0.2em] leading-none"
       >
         read more
       </a>

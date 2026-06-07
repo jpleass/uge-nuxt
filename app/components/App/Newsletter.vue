@@ -25,10 +25,10 @@
       </form>
     </div>
 
-    <div class="w-full flex items-center flex-col gap-2">
+    <div class="w-full flex items-center flex-col gap-[.5em]">
       <p>or follow us?</p>
 
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-[.5em] text-[1.5em]">
         <a
           href="https://www.instagram.com/untitledgamesevent/"
           target="_blank"

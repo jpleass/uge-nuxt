@@ -5,9 +5,12 @@
   >
     <div class="flex flex-col items-center text-center">
       <p>have a question or want to get involved?</p>
-      <p>
+      <p class="mt-4 lg:mt-0">
         contact us at:
-        <a class="link" href="mailto:untitledgamesevent@proton.me">
+        <a
+          class="link wrap-anywhere"
+          href="mailto:untitledgamesevent@proton.me"
+        >
           untitledgamesevent@proton.me
         </a>
       </p>

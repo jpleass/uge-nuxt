@@ -16,22 +16,17 @@ const effectiveBorderWidth = computed(() => {
 
 const { getSrc, loaded } = useRecoloredImage(AppBorder, undefined, 768)
 
-const currentSrc = ref('')
-// Each time the color changes we increment this key to remount the ghost,
-// which restarts the CSS fade-out animation with the outgoing border image.
-const ghostSrc = ref('')
-const ghostKey = ref(0)
-
+// Render the frame shape *once* as a static alpha mask (line pixels opaque, rest
+// transparent). The color is irrelevant to the alpha, so any value works. The
+// live `color` is then applied via `background-color` on the masked pseudo-
+// element — a cheap GPU repaint with no per-frame image decode, which avoids the
+// mobile-WebKit border-image decode stall that made the frame vanish mid-
+// transition. It stays in lock-step with text/images since both read the same
+// per-frame `globalColor`.
+const maskSrc = ref('')
 watch(loaded, (isLoaded) => {
-  if (isLoaded) currentSrc.value = getSrc(color.value)
-})
-
-watch(color, (newColor, oldColor) => {
-  if (!loaded.value) return
-  ghostSrc.value = getSrc(oldColor)
-  ghostKey.value++
-  currentSrc.value = getSrc(newColor)
-})
+  if (isLoaded) maskSrc.value = getSrc('#000000')
+}, { immediate: true })
 </script>
 
 <template>
@@ -39,22 +34,11 @@ watch(color, (newColor, oldColor) => {
     <div
       class="frame"
       :style="{
-        borderImageSource: currentSrc ? `url(${currentSrc})` : 'none',
-        borderWidth: `${effectiveBorderWidth}px`,
+        '--frame-mask': maskSrc ? `url(${maskSrc})` : 'none',
+        '--frame-color': color,
+        '--frame-border-width': `${effectiveBorderWidth}px`,
       }"
     >
-      <!-- Ghost: outgoing border fades out via CSS animation. Positioned with
-           negative inset so it covers exactly the frame's border area. -->
-      <div
-        v-if="ghostSrc"
-        :key="ghostKey"
-        class="border-ghost"
-        :style="{
-          borderImageSource: `url(${ghostSrc})`,
-          borderWidth: `${effectiveBorderWidth}px`,
-          inset: `-${effectiveBorderWidth}px`,
-        }"
-      />
       <slot />
     </div>
     <template #fallback>
@@ -69,40 +53,38 @@ watch(color, (newColor, oldColor) => {
   box-sizing: border-box;
   width: 100%;
   min-height: 100vh;
-  border-style: solid;
-  border-color: transparent;
-  border-image-slice: 86;
-  border-image-repeat: repeat;
-  image-rendering: pixelated;
+  /* The frame is now painted by the absolutely-positioned ::before overlay,
+     which reserves no layout space. Pad the content in by the border width so it
+     sits inside the frame, matching the old `border-width` inset. */
+  padding: var(--frame-border-width);
 }
 
-.border-ghost {
+/* The frame is painted by masking a solid background-color to the border shape.
+   Recoloring is then a cheap compositor repaint (just the background) instead of
+   decoding a new border-image per frame — which is what stalled on mobile. The
+   pseudo-element is childless, so masking it never clips the slot content. */
+.frame::before {
+  content: '';
   position: absolute;
-  pointer-events: none;
+  inset: 0;
   box-sizing: border-box;
-  border-style: solid;
-  border-color: transparent;
-  border-image-slice: 86;
-  border-image-repeat: repeat;
+  border: var(--frame-border-width) solid transparent;
+  background-color: var(--frame-color);
+  /* `/ 1` sets the mask-border width to 1× border-width. Unlike
+     border-image-width (initial value 1), mask-border-width defaults to `auto`
+     (the slice's intrinsic px), which would ignore the responsive border-width. */
+  -webkit-mask-box-image: var(--frame-mask) 86 / 1 repeat;
+  mask-border: var(--frame-mask) 86 / 1 repeat;
   image-rendering: pixelated;
-  animation: border-ghost-fade 300ms ease-out forwards;
+  pointer-events: none;
 }
 
 /* round scales tiles to fit on larger screens; repeat keeps the native
    tile size on mobile to avoid over-stretching. */
 @media (min-width: 769px) {
-  .frame,
-  .border-ghost {
-    border-image-repeat: round;
-  }
-}
-
-@keyframes border-ghost-fade {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
+  .frame::before {
+    -webkit-mask-box-image: var(--frame-mask) 86 / 1 round;
+    mask-border: var(--frame-mask) 86 / 1 round;
   }
 }
 </style>
