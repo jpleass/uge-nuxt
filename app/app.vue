@@ -46,6 +46,8 @@ useGlobalColorObserver()
           <NuxtPage />
         </main>
       </AppBorder>
+
+      <AppFireworks />
     </Body>
   </Html>
 </template>

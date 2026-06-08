@@ -5,13 +5,10 @@ const { globalColor } = useGlobalColor()
 const props = defineProps<{ color?: string; borderWidth?: number }>()
 
 const color = computed(() => props.color || globalColor.value || '#000000')
-
-const { width: windowWidth } = useWindowSize()
+const { borderWidth } = useFrameScale()
 const effectiveBorderWidth = computed(() => {
   if (props.borderWidth !== undefined) return props.borderWidth
-  // Linear interpolation: 34px at 320px viewport → 80px at 1920px
-  const t = Math.min(1, Math.max(0, (windowWidth.value - 320) / (1920 - 320)))
-  return Math.round(34 + t * (80 - 34))
+  return borderWidth.value
 })
 
 const { getSrc, loaded } = useRecoloredImage(AppBorder, undefined, 768)
@@ -24,9 +21,13 @@ const { getSrc, loaded } = useRecoloredImage(AppBorder, undefined, 768)
 // transition. It stays in lock-step with text/images since both read the same
 // per-frame `globalColor`.
 const maskSrc = ref('')
-watch(loaded, (isLoaded) => {
-  if (isLoaded) maskSrc.value = getSrc('#000000')
-}, { immediate: true })
+watch(
+  loaded,
+  (isLoaded) => {
+    if (isLoaded) maskSrc.value = getSrc('#000000')
+  },
+  { immediate: true },
+)
 </script>
 
 <template>

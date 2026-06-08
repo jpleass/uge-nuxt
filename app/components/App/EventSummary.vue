@@ -35,7 +35,7 @@ const altText = computed(() => {
       :href="event.link || undefined"
       :target="event.link ? '_blank' : undefined"
       :rel="event.link ? 'noopener noreferrer' : undefined"
-      class="md:hover:scale-105 transition-transform rounded overflow-hidden"
+      class="overflow-hidden"
     >
       <AppRecoloredImage
         :src="event.image"
