@@ -1,9 +1,8 @@
 <template>
   <div class="flex flex-col items-center gap-16 pt-16" :data-color="'#333333'">
-    <div
-      class="lg:tracking-widest text-center whitespace-nowrap lg:text-[1.4em]"
-    >
-      [ untitled games event ]
+    <div class="lg:tracking-widest text-center whitespace-nowrap text-[1.4em]">
+      <span class="scale-120 inline-block">[</span> untitled games event
+      <span class="inline-block scale-120">]</span>
     </div>
 
     <p class="max-w-xl text-center tracking-wide leading-default">
