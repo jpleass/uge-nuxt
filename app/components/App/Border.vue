@@ -88,4 +88,27 @@ watch(
     mask-border: var(--frame-mask) 86 / 1 round;
   }
 }
+
+/* Firefox does not support `mask-border` or `-webkit-mask-box-image`.
+   Fall back to `border-image` so the tiled frame still renders. */
+@supports not ((mask-border: url('') 1) or (-webkit-mask-box-image: url(''))) {
+  .frame {
+    padding: 0;
+    border: var(--frame-border-width) solid transparent;
+    border-image-source: var(--frame-mask);
+    border-image-slice: 86;
+    border-image-width: 1;
+    border-image-repeat: repeat;
+  }
+
+  .frame::before {
+    content: none;
+  }
+
+  @media (min-width: 769px) {
+    .frame {
+      border-image-repeat: round;
+    }
+  }
+}
 </style>
