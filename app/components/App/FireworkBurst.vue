@@ -137,6 +137,12 @@ function loop(now: number) {
   rafId = requestAnimationFrame(loop)
 }
 
+// The canvas bakes globalColor into its pixels at paint time. While the RAF runs
+// it repaints every step, but once it stops (board empty or step cap) the final
+// frame is frozen — so a later colour change would be ignored. Repaint on change
+// to keep the static frame in sync.
+watch(globalColor, () => render())
+
 onMounted(() => {
   seed()
   render()
