@@ -31,12 +31,15 @@ setPage({ title: 'Ambient' })
         style="image-rendering: pixelated"
       /> -->
 
-      <div
+      <!-- <div
         v-if="event.theme"
         class="text-center text-[1em]"
         v-html="event.theme"
-      />
+      /> -->
     </template>
+    <div class="text-center text-[1em] max-w-md leading-default">
+      a space for experimental games and playable arts
+    </div>
 
     <AppAmbientFireworks />
   </div>
