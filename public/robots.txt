@@ -1,4 +1,29 @@
+# /ambient is a venue display screen; /life is a local authoring tool stripped
+# from production builds. Both are also noindexed at the page level.
+
 User-agent: *
 Allow: /
+Disallow: /ambient
+Disallow: /life
+
+# Search and AI crawlers are explicitly welcome. The wildcard group above
+# already permits them; naming them means a future change can't block them by
+# accident, and Google-Extended / Applebot-Extended are opt-ins for AI answers.
+# Rules are repeated here because robots.txt groups do not inherit.
+
+User-agent: Googlebot
+User-agent: Google-Extended
+User-agent: Bingbot
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: PerplexityBot
+User-agent: Applebot
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /ambient
+Disallow: /life
 
 Sitemap: https://untitledgamesevent.nl/sitemap.xml

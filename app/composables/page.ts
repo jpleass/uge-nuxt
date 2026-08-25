@@ -25,21 +25,27 @@ export function setPage<T extends Record<string, any>>(page: T) {
     link: [{ rel: 'canonical', href: url }],
   })
 
+  // Title and description stay reactive on the client too, so link scrapers
+  // that execute JS see the right values after an in-app navigation.
   useSeoMeta({
     title,
+    description,
   })
 
+  const imageAlt = page?.cover?.alt || title
+
   useServerSeoMeta({
-    description,
     ogTitle: title,
     ogDescription: description,
     ogUrl: url,
-    ogType: 'website',
-    ...(image && { ogImage: image }),
+    ogType: page.ogType || 'website',
+    ogSiteName: site.value.title,
+    ogLocale: 'en_NL',
+    ...(image && { ogImage: image, ogImageAlt: imageAlt }),
     twitterTitle: title,
     twitterDescription: description,
     twitterCard: image ? 'summary_large_image' : 'summary',
-    ...(image && { twitterImage: image }),
+    ...(image && { twitterImage: image, twitterImageAlt: imageAlt }),
   })
 
   const nuxtApp = useNuxtApp()

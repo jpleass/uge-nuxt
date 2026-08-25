@@ -1,6 +1,9 @@
 {
-  "name": "MyWebSite",
-  "short_name": "MySite",
+  "name": "[untitled games event]",
+  "short_name": "untitled games",
+  "description": "A monthly Amsterdam gathering for experimental games, playable arts, and conversations around play.",
+  "start_url": "/",
+  "lang": "en",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -15,7 +18,7 @@
       "purpose": "maskable"
     }
   ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
+  "theme_color": "#1a1a1a",
+  "background_color": "#e6e6e6",
   "display": "standalone"
 }

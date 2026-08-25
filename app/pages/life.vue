@@ -371,6 +371,13 @@ onUnmounted(() => {
 })
 
 setPage({ title: 'Life' })
+
+// A local authoring tool. The `pages:extend` hook in nuxt.config.ts strips this
+// route from production builds entirely, but `dev --tunnel` can expose it — so
+// noindex it too, belt and braces (also disallowed in robots.txt).
+useHead({
+  meta: [{ name: 'robots', content: 'noindex, nofollow' }],
+})
 </script>
 
 <template>
