@@ -22,21 +22,6 @@ setPage({ title: 'Ambient' })
       <span class="inline-block scale-120">]</span>
     </div>
 
-    <template v-if="event">
-      <!-- <AppRecoloredImage
-        :src="event.image"
-        :color="globalColor"
-        :alt="event.theme"
-        class="w-40 h-40 lg:w-56 lg:h-56"
-        style="image-rendering: pixelated"
-      /> -->
-
-      <!-- <div
-        v-if="event.theme"
-        class="text-center text-[1em]"
-        v-html="event.theme"
-      /> -->
-    </template>
     <div class="text-center text-[1em] max-w-md leading-default">
       a space for experimental games and playable arts
     </div>

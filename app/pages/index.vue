@@ -125,5 +125,6 @@ useHead({
         <AppEventSummary :event="event" />
       </div>
     </div>
+    <AppFireworks />
   </div>
 </template>
