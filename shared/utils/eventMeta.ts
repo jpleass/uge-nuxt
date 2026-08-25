@@ -14,10 +14,10 @@ export const VENUE = {
   addressCountry: 'NL',
 } as const
 
-// TODO: doors time varies a little per edition. Add `time: 'HH:MM'` to an
-// event's frontmatter to override this.
-const DEFAULT_START_TIME = '19:00'
-const DEFAULT_DURATION_HOURS = 4
+// Editions run 16:30–19:00. Add `time: 'HH:MM'` to an event's frontmatter if a
+// particular one started at a different hour.
+const DEFAULT_START_TIME = '16:30'
+const DEFAULT_DURATION_MINUTES = 150
 
 /** Loose shape — accepts both the client `Collections['events']` and the raw server row. */
 export interface EventDoc {
@@ -140,10 +140,11 @@ function amsterdamOffset(isoDate: string) {
   return name?.replace('GMT', '') || '+01:00'
 }
 
-function addHours(time: string, hours: number) {
+/** Works in minutes so half-hour starts and durations survive the arithmetic. */
+function addMinutes(time: string, minutes: number) {
   const [h = 0, m = 0] = time.split(':').map(Number)
-  const total = (h + hours) % 24
-  return `${String(total).padStart(2, '0')}:${String(m).padStart(2, '0')}`
+  const total = (h * 60 + m + minutes) % (24 * 60)
+  return `${String(Math.floor(total / 60)).padStart(2, '0')}:${String(total % 60).padStart(2, '0')}`
 }
 
 /** Full ISO datetimes with the correct Amsterdam offset, as Event schema wants. */
@@ -155,7 +156,7 @@ export function eventDateTimes(event: EventDoc) {
   const start = event.time || DEFAULT_START_TIME
   return {
     startDate: `${isoDate}T${start}:00${offset}`,
-    endDate: `${isoDate}T${addHours(start, DEFAULT_DURATION_HOURS)}:00${offset}`,
+    endDate: `${isoDate}T${addMinutes(start, DEFAULT_DURATION_MINUTES)}:00${offset}`,
   }
 }
 
