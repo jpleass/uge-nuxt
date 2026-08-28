@@ -16,9 +16,7 @@ const { globalColor } = useGlobalColor()
 
 // Resolved once in setup — `resolveComponent` can't be called inline in a template.
 const NuxtLinkComponent = resolveComponent('NuxtLink')
-const imageWrapper = computed(() =>
-  props.linked ? NuxtLinkComponent : 'div',
-)
+const imageWrapper = computed(() => (props.linked ? NuxtLinkComponent : 'div'))
 
 const title = computed(() => eventTitle(props.event))
 const isoDate = computed(() => toIsoDate(props.event.date))
@@ -80,16 +78,9 @@ const isoDate = computed(() => toIsoDate(props.event.date))
       <ContentRenderer :value="event" />
     </div>
 
-    <div class="mt-[1em] pb-[1em]">
-      <NuxtLink
-        v-if="linked"
-        :to="event.path"
-        class="link leading-none px-4 py-2 border-[0.2em] border-current rounded"
-      >
-        read more
-      </NuxtLink>
+    <div v-if="event.link" class="mt-[1em] pb-[1em]">
       <a
-        v-else-if="event.link"
+        v-if="event.link"
         :href="event.link"
         target="_blank"
         rel="noopener noreferrer"

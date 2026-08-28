@@ -22,6 +22,7 @@ const DEFAULT_DURATION_MINUTES = 150
 /** Loose shape — accepts both the client `Collections['events']` and the raw server row. */
 export interface EventDoc {
   path?: string
+  stem?: string
   number?: number
   theme?: string
   date?: string
@@ -32,6 +33,33 @@ export interface EventDoc {
   seoDescription?: string
   upcoming?: boolean
   body?: unknown
+}
+
+/**
+ * The numeric prefix on an event filename, as `[edition, part]`:
+ * `9.1.september-2026` → `[9, 1]`, `10.october-2026` → `[10, 0]`. Matches the
+ * basename, not the whole stem — Nuxt Content stems carry the collection
+ * directory (`events/9.1.september-2026`). Falls back to the `number`
+ * frontmatter when the basename doesn't start with a number.
+ */
+function eventIndex(event: EventDoc): [number, number] {
+  const name = (event.stem ?? '').split('/').pop() ?? ''
+  const match = /^(\d+)(?:\.(\d+))?/.exec(name)
+  if (!match) return [event.number ?? -1, 0]
+  return [Number(match[1]), match[2] ? Number(match[2]) : 0]
+}
+
+/**
+ * Newest edition first, but the parts of a multi-day edition in reading order:
+ * October above September, and September's day 1 above its day 2. Sorting on the
+ * stem as a string would put `10.…` below `2.…`, hence the numeric compare.
+ */
+export function compareEvents(a: EventDoc, b: EventDoc) {
+  const [editionA, partA] = eventIndex(a)
+  const [editionB, partB] = eventIndex(b)
+  if (editionA !== editionB) return editionB - editionA
+  if (partA !== partB) return partA - partB
+  return (a.stem ?? '').localeCompare(b.stem ?? '')
 }
 
 export function stripTags(value?: string) {

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-const { data: events } = await useAsyncData('events', () =>
-  queryCollection('events').order('stem', 'DESC').all(),
+const { data: events } = await useAsyncData('events', async () =>
+  (await queryCollection('events').all()).sort(compareEvents),
 )
 
 const upcomingEvents = computed(() =>
