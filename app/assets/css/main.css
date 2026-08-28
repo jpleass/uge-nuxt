@@ -142,3 +142,7 @@
     }
   }
 }
+
+ul {
+  @apply list-none ml-0 pl-0 mb-linebreak;
+}
