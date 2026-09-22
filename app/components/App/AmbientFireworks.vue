@@ -9,8 +9,11 @@ interface Burst {
   y: number
 }
 
+const props = withDefaults(defineProps<{ maxBursts?: number }>(), {
+  maxBursts: 12,
+})
+
 const SPAWN_INTERVAL_MS = 2500
-const MAX_BURSTS = 30
 
 const bursts = ref<Burst[]>([])
 let nextId = 0
@@ -20,8 +23,8 @@ function spawn() {
   const x = Math.random() * window.innerWidth
   const y = Math.random() * window.innerHeight
   bursts.value.push({ id: nextId++, x, y })
-  if (bursts.value.length > MAX_BURSTS) {
-    bursts.value.splice(0, bursts.value.length - MAX_BURSTS)
+  if (bursts.value.length > props.maxBursts) {
+    bursts.value.splice(0, bursts.value.length - props.maxBursts)
   }
 }
 

@@ -47,7 +47,7 @@ const slots: TimetableSlot[] = [
     end: '20:00',
     title: 'Micro talks',
     speaker:
-      'Lucas Lugarinho, Nestor Siré, amy pickles, Lotte Louise de Jong, Jordan Magnuson, Case Jernigan, Dmytro Tentiuk, Demi van Kuijk, Erwin Hoogerwoord, Emily W. Bernstein, Anneke ter Schure, and more',
+      'Lucas Lugarinho, amy pickles, Jordan Magnuson, Lotte Louise de Jong, Case Jernigan, Bahar Noorizadeh,  Nestor Siré, PASSPHRASE (Dmytro Tentiuk, Demi van Kuijk, Anneke ter Schure)',
   },
 ]
 
@@ -205,10 +205,10 @@ useHead({
 
 <template>
   <div
-    class="bg-bg leading-default text-base font-bold grid grid-cols-2 gap-4 md:gap-12 inset-0 fixed z-50 p-12 md:text-[calc(1em+1.25vw)]"
+    class="bg-bg leading-default text-base cursor-none font-bold grid grid-cols-2 gap-4 md:gap-12 inset-0 fixed z-50 p-12 md:text-[calc(1em+1.25vw)]"
     :data-color="EVENT_COLOR"
   >
-    <!-- <AppAmbientFireworks /> -->
+    <AppAmbientFireworks :max-bursts="6" />
 
     <div
       v-if="offsetMinutes !== 0"
@@ -268,7 +268,10 @@ useHead({
         </template>
       </div>
 
-      <div />
+      <div class="flex items-center justify-center flex-col gap-2">
+        <img src="@/assets/images/signup.png" class="w-24 mix-blend-multiply" />
+        <small>mailing list</small>
+      </div>
     </aside>
 
     <section
