@@ -2,7 +2,13 @@ import { useNuxt } from '@nuxt/kit'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineNuxtConfig({
-  modules: ['@unocss/nuxt', '@vueuse/nuxt', '@nuxt/icon', '@nuxt/content'],
+  modules: [
+    '@unocss/nuxt',
+    '@vueuse/nuxt',
+    '@nuxt/icon',
+    '@nuxt/content',
+    '@vercel/analytics',
+  ],
 
   compatibilityDate: '2025-08-01',
 
