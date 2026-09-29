@@ -5,11 +5,13 @@ const { globalColor } = useGlobalColor()
 const props = defineProps<{ color?: string; borderWidth?: number }>()
 
 const color = computed(() => props.color || globalColor.value || '#000000')
-const { borderWidth } = useFrameScale()
-const effectiveBorderWidth = computed(() => {
-  if (props.borderWidth !== undefined) return props.borderWidth
-  return borderWidth.value
-})
+// Default to the CSS clamp() so the padding is right from the SSR render; an
+// explicit prop still overrides it.
+const borderWidthCss = computed(() =>
+  props.borderWidth !== undefined
+    ? `${props.borderWidth}px`
+    : FRAME_BORDER_WIDTH_CSS,
+)
 
 const { getSrc, loaded } = useRecoloredImage(AppBorder, undefined, 768)
 
@@ -31,21 +33,20 @@ watch(
 </script>
 
 <template>
-  <ClientOnly>
-    <div
-      class="frame"
-      :style="{
-        '--frame-mask': maskSrc ? `url(${maskSrc})` : 'none',
-        '--frame-color': color,
-        '--frame-border-width': `${effectiveBorderWidth}px`,
-      }"
-    >
-      <slot />
-    </div>
-    <template #fallback>
-      <slot />
-    </template>
-  </ClientOnly>
+  <!-- Rendered on the server too, so the content is inset by the frame width
+       from first paint. Only the mask (canvas-generated) waits for the client;
+       the frame overlay fades in once it's ready without shifting layout. -->
+  <div
+    class="frame"
+    :data-ready="maskSrc ? '' : undefined"
+    :style="{
+      '--frame-mask': maskSrc ? `url(${maskSrc})` : 'none',
+      '--frame-color': color,
+      '--frame-border-width': borderWidthCss,
+    }"
+  >
+    <slot />
+  </div>
 </template>
 
 <style scoped>
@@ -78,6 +79,12 @@ watch(
   mask-border: var(--frame-mask) 86 / 1 repeat;
   image-rendering: pixelated;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.frame[data-ready]::before {
+  opacity: 1;
 }
 
 /* round scales tiles to fit on larger screens; repeat keeps the native

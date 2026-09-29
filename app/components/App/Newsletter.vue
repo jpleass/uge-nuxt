@@ -20,7 +20,7 @@
         <input
           type="submit"
           value="Subscribe"
-          class="p-4 border-[0.2em] border-current font-sans bg-black text-white cursor-pointer transition-colors md:hover:bg-white md:hover:text-black"
+          class="p-4 border-[0.2em] border-current font-sans bg-[#333] text-white cursor-pointer transition-colors md:hover:bg-white md:hover:border-white md:hover:text-[#333]"
         />
       </form>
     </div>
