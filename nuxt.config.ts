@@ -16,14 +16,17 @@ export default defineNuxtConfig({
     enabled: true,
   },
 
-  // /life is a local authoring tool (Game of Life frame exporter), not part of
-  // the site. Strip the route from production builds. NODE_ENV isn't reliably
-  // set when this config is evaluated, so key off Nuxt's own dev flag.
+  // /life (Game of Life frame exporter) and /background-generator (static
+  // Game of Life backgrounds) are local authoring tools, not part of the site.
+  // Strip them from production builds. NODE_ENV isn't reliably set when this
+  // config is evaluated, so key off Nuxt's own dev flag.
   hooks: {
     'pages:extend': function (pages) {
       if (useNuxt().options.dev) return
-      const i = pages.findIndex((page) => page.path === '/life')
-      if (i !== -1) pages.splice(i, 1)
+      for (const path of ['/life', '/background-generator']) {
+        const i = pages.findIndex((page) => page.path === path)
+        if (i !== -1) pages.splice(i, 1)
+      }
     },
   },
 

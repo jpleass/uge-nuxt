@@ -2,11 +2,11 @@
  * A minimal, dependency-free ZIP writer.
  *
  * Only the "store" method (no compression) is implemented. That is deliberate:
- * the only consumer is the frame exporter on /life, whose 1-bit BMP frames run
- * a few KB each, so even a long run lands well under a megabyte. Compressing
- * them would shrink that a lot in relative terms and not at all in terms that
- * matter, while forcing a compression library into a project that otherwise
- * ships next to no runtime dependencies.
+ * the consumers are the frame exporter on /life, whose 1-bit BMP frames run a
+ * few KB each, and /background-generator, whose PNGs are already compressed.
+ * Compressing either would gain nothing that matters, while forcing a
+ * compression library into a project that otherwise ships next to no runtime
+ * dependencies.
  *
  * No directory entries, no ZIP64, no unicode filenames: keep names ASCII and
  * archives under 4GB.

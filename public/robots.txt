@@ -1,10 +1,12 @@
-# /ambient is a venue display screen; /life is a local authoring tool stripped
-# from production builds. Both are also noindexed at the page level.
+# /ambient is a venue display screen; /life and /background-generator are local
+# authoring tools stripped from production builds. All are also noindexed at the
+# page level.
 
 User-agent: *
 Allow: /
 Disallow: /ambient
 Disallow: /life
+Disallow: /background-generator
 
 # Search and AI crawlers are explicitly welcome. The wildcard group above
 # already permits them; naming them means a future change can't block them by
@@ -25,5 +27,6 @@ User-agent: Applebot-Extended
 Allow: /
 Disallow: /ambient
 Disallow: /life
+Disallow: /background-generator
 
 Sitemap: https://untitledgamesevent.nl/sitemap.xml
